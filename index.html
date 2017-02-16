@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Editor</title>
+    <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-type">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <div id="wrapper">
+        <div id="logo" class="disable-select">Code Editor</div>
+        
+        <div id="menu-bar">
+            
+            <ul id="options" class="disable-select">
+                <li class="toggle-btn selected">HTML</li>
+                <li class="toggle-btn">CSS</li>
+                <li class="toggle-btn">JavaScript</li>
+                <li class="toggle-btn selected">Result</li>
+            </ul>
+            
+            <div id="run-btn-div" class="disable-select">
+                <button id="run-btn">RUN</button>
+            </div>
+        </div>
+		
+		<div class="clear"></div>
+        <div class="code-container"	id="html-container">
+        	<div class="code-label disable-select">HTML</div>
+            <textarea id="html-box" cols="30" name="" rows="10" placeholder="Code here...">
+            </textarea>
+        </div>
+
+        <div class="code-container"	id="css-container">
+        	<div class="code-label disable-select">CSS</div>
+            <textarea id="css-box" cols="30" name="" rows="10" placeholder="Code here...">
+            </textarea>
+        </div>
+
+        <div class="code-container"	id="javascript-container">
+        	<div class="code-label disable-select">JavaScript</div>
+            <textarea id="javascript-box" cols="30" name="" rows="10" placeholder="Code here...">
+            </textarea>
+        </div>
+
+        <div class="code-container"	id="result-container">
+        	<div class="code-label disable-select">Result</div>
+            <iframe id="result-frame"></iframe>
+        </div>
+
+
+    </div>
+    <script>
+    $("#css-container").css('display', 'none');
+    $("#javascript-container").css('display', 'none');	 //Initialize display:none to css and js container
+    var windowWidth = $(window).width();	//get window width
+	$("#wrapper").css('width', windowWidth+"px");	//prevent window from resizing
+
+    var windowHeight = $(window).height();	//get browser height
+    var menuBarHeight = $("#menu-bar").height();	//get menuBar's height
+    var codeContainerHeight = windowHeight - menuBarHeight;	//calculate the height without menuBar
+    $(".code-container").height(codeContainerHeight+"px");	//assign the height value to code-container's height
+
+    $(document).ready(function(){
+       $(".toggle-btn").click(function(){
+       		$(this).toggleClass('selected');
+       		var activeContainer = $(this).html();
+       		$("#"+activeContainer.toLowerCase()+"-container").toggle();
+
+       		var showingDivs = $(".code-container").filter(function(){
+       			return ($(this).css('display') != "none");
+       		}).length;
+
+       		var divWidth = 100/showingDivs;
+       		
+       		$(".code-container").css("width", divWidth+"%");
+       		
+       		
+    });
+       
+       $("#run-btn").click(function(){
+           $("iframe").contents().find("html").html("<style>"+$("#css-box").val()+"</style>"+$("#html-box").val());
+           //No JavaScript here
+       	});
+       });
+
+
+    </script>
+</body>
+</html>
