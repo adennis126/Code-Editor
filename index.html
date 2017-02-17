@@ -83,10 +83,15 @@
     });
        
        $("#run-btn").click(function(){
-           $("iframe").contents().find("html").html("<style>"+$("#css-box").val()+"</style>"+$("#html-box").val());
-           //No JavaScript here
+       	   var cssContent = $("#css-box").val();
+       	   var htmlContent = $("#html-box").val();
+       	   var jsContent = $("#javascript-box").val();
+       	  
+           $("iframe").contents().find("html").html("<style>" + cssContent + "</style>"+ htmlContent + "<script>"+jsContent+ 
+           	"</scr"+"ipt>");
+           
        	});
-       });
+    });
 
 
     </script>
